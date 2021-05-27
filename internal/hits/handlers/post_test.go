@@ -168,9 +168,6 @@ func TestHitsServer_Concurrent(t *testing.T) {
 	})
 	assert.Nil(t, err)
 
-	// err = worker.StartConsumer(batchSize, batchTimeout)
-	// assert.Nil(t, err)
-
 	defer worker.StopAll()
 
 	ts := httptest.NewServer(http.HandlerFunc(h.Router.ServeHTTP))

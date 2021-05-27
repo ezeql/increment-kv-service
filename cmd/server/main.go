@@ -46,17 +46,20 @@ func main() {
 			Addr:    listenAddress,
 			Handler: hits.Router,
 		}
-
 		if err := s.ListenAndServe(); err != nil {
 			log.Panicf("error while serving service: %s", err)
 		}
 	}()
 
 	// TODO: Missing handle graceful shutdown
-	ch := make(chan os.Signal, 1)
-	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
-	<-ch
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, syscall.SIGINT)
+	defer signal.Stop(signals)
 
-	log.Println("Stopping API server.")
+	<-signals // wait for signal
+	go func() {
+		<-signals // hard exit on second signal (in case shutdown gets stuck)
+		os.Exit(1)
+	}()
 
 }

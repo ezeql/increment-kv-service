@@ -21,9 +21,8 @@ const (
 	INNER JOIN UNNEST($2::BIGINT[]) WITH ORDINALITY AS values(value, idx) ON keys.idx = values.idx
 	ON CONFLICT (key) DO UPDATE SET value = excluded.value + increments.value`
 
-	batchSize = 100
-
-	batchTimeout = time.Second // approx since we want 10 seconds max
+	batchSize    = 100
+	batchTimeout = time.Second
 )
 
 type StoreWorker struct {
@@ -60,6 +59,7 @@ func (w *StoreWorker) startConsumer(batchSize int64, batchTimeout time.Duration)
 
 	log.Println("CONFIG: flushing to database every", TickerInterval.Milliseconds(), "ms ⏲️")
 
+	//launch goroutine in charge
 	go consumer.consume()
 
 	return w.consumer.AddBatchConsumer(batchSize, batchTimeout, consumer)

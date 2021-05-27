@@ -55,7 +55,7 @@ func (consumer *consumer) Consume(batch rmq.Deliveries) {
 		//check for toxic messages
 		incIn, err := incrementsrv.InputFromJSONReader(reader)
 		if err != nil {
-			delivery.Reject()
+			delivery.Reject() // Ignoring error handling
 		}
 
 		//send to channel
@@ -63,7 +63,7 @@ func (consumer *consumer) Consume(batch rmq.Deliveries) {
 
 		//ack message. Implementation handles retry
 		if err := delivery.Ack(); err != nil {
-			// delivery.Push()
+			// delivery.Push() // Ignoring error handling + sending to DLQ
 			continue
 		}
 	}

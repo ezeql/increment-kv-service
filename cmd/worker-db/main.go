@@ -17,12 +17,13 @@ import (
 const (
 	// Redis host environment var name
 	redisHostEnvName = "REDIS"
+	dbHostEnvName    = "DATABASE_URL"
 
 	batchSize     = 100
 	prefetchLimit = 500
 
 	pollDuration = 100 * time.Millisecond
-	batchTimeout = time.Second // approx since we want 10 seconds max
+	batchTimeout = time.Second
 )
 
 func main() {
@@ -35,9 +36,15 @@ func main() {
 		log.Fatalf("required environment var not defined: %v\n", redisHostEnvName)
 	}
 
+	// check for db env var
+	dbHost, found := os.LookupEnv(dbHostEnvName)
+	if !found {
+		log.Fatalf("required environment var not defined: %v\n", dbHost)
+	}
+
 	redisClient := redis.NewClient(&redis.Options{Addr: redisHost})
 
-	pool, err := pgxpool.Connect(context.Background(), os.Getenv("DATABASE_URL"))
+	pool, err := pgxpool.Connect(context.Background(), dbHost)
 	if err != nil {
 		log.Fatalf("failed to open a connection to pgsql: %v\n", err)
 	}
@@ -54,6 +61,7 @@ func main() {
 
 	defer worker.StopAll()
 
+	// TODO: Missing handle graceful shutdown
 	signals := make(chan os.Signal, 1)
 	signal.Notify(signals, syscall.SIGINT)
 	defer signal.Stop(signals)
