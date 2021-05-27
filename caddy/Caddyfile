@@ -1,0 +1,35 @@
+{
+	order rate_limit before basicauth # needed for including the rate_limit module
+    order request_id before header # request id
+}
+
+http://localhost:3333 {
+
+    reverse_proxy server:3333 {
+    }
+
+    rate_limit {
+    # rate limit 60 hits per second per host
+        zone all { 
+            key    {remote_host} 
+            events 60
+            window 60s
+        }
+    }
+
+}
+
+:2090 { # serve metrics in a not exposed port
+    metrics /metrics
+}
+
+    
+
+
+
+
+
+
+
+
+

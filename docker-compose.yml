@@ -1,0 +1,52 @@
+services:
+  proxy:
+    build: ./caddy
+    restart: unless-stopped
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/config:/config
+      - ./data/caddydata:/data
+      - ./data/caddylogs:/var/log/caddy
+    ports:
+      - "3333:3333"    
+  db:
+    image: postgres:13.2-alpine
+    # logging:
+    #   driver: none
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+      - ./scripts/db:/scripts/db/
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  redis:
+    # logging:
+    #   driver: none
+    image: redis:6.2.2-alpine
+  server:
+    deploy:
+      replicas: 3
+    build:
+      context: .
+      args:
+      - FILE=server
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+      - REDIS=redis:6379
+    depends_on:
+      - db
+      - redis
+  worker-db:
+    deploy:
+      replicas: 3
+    build:
+      context: .
+      args:
+      - FILE=worker-db #appname
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+      - REDIS=redis:6379
+    depends_on:
+      - db
+      - redis
