@@ -52,9 +52,6 @@ func main() {
 		log.Fatalf("couldn't start  worker: %v\n", err)
 	}
 
-	// if err := worker.StartConsumer(batchSize, batchTimeout); err != nil {
-	// 	log.Fatalf("couldn't start  worker: %v\n", err)
-	// }
 	defer worker.StopAll()
 
 	signals := make(chan os.Signal, 1)
