@@ -1,5 +1,5 @@
 {
-	order rate_limit before basicauth # needed for including the rate_limit module
+    order rate_limit before basicauth # needed for including the rate_limit module
     order request_id before header # request id
 }
 
@@ -22,14 +22,3 @@ http://localhost:3333 {
 :2090 { # serve metrics in a not exposed port
     metrics /metrics
 }
-
-    
-
-
-
-
-
-
-
-
-
