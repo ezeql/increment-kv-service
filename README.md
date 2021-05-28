@@ -30,6 +30,8 @@ Nine seconds is a value chosen after one of the requirements of the problem that
 
 ## Requirements
 
+[Make](https://en.wikipedia.org/wiki/Make_(software))
+
 ### Release
 
 - [Docker](https://docs.docker.com/get-docker/)
@@ -66,7 +68,7 @@ Nine seconds is a value chosen after one of the requirements of the problem that
 - [x] The persisted state must be, at most, ten seconds out of date.
 - [x] Rate limit
 - [x] Benchmarking
-- [ ] Metrics
+- [x] Proxy Metrics
 - [ ] Auth
 - [ ] CI / CD
 - [ ] Graceful shutdown
