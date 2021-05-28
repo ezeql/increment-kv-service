@@ -8,11 +8,9 @@ services:
       - ./data/caddydata:/data
       - ./data/caddylogs:/var/log/caddy
     ports:
-      - "3333:3333"    
+      - '3333:3333'
   db:
     image: postgres:13.2-alpine
-    # logging:
-    #   driver: none
     volumes:
       - ./data/db:/var/lib/postgresql/data
       - ./scripts/db:/scripts/db/
@@ -21,8 +19,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   redis:
-    # logging:
-    #   driver: none
     image: redis:6.2.2-alpine
   server:
     deploy:
@@ -30,7 +26,7 @@ services:
     build:
       context: .
       args:
-      - FILE=server
+        - FILE=server
     environment:
       - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
       - REDIS=redis:6379
@@ -43,10 +39,34 @@ services:
     build:
       context: .
       args:
-      - FILE=worker-db #appname
+        - FILE=worker-db
     environment:
       - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
       - REDIS=redis:6379
     depends_on:
       - db
       - redis
+  prometheus:
+    image: prom/prometheus:v2.27.1
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - '9090:9090'
+    restart: always
+    user: root # won't network correctly if not.
+  grafana:
+    image: grafana/grafana:7.5.7-ubuntu
+    container_name: grafana
+    ports:
+      - '3000:3000'
+    volumes:
+      - grafana-storage:/var/lib/grafana
+volumes:
+  grafana-storage:
+  prometheus_data:
