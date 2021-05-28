@@ -1,0 +1,9 @@
+# prometheus.yaml
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: proxy_metrics
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['proxy:2090']
