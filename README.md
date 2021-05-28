@@ -1,4 +1,4 @@
-<img src="https://lever-client-logos.s3.amazonaws.com/b0794e3b-6900-483d-b69a-7a8befe64175-1542139595016.png">
+![Appcues Image](./images/appcues.png "Appcues Image")
 
 # Platform Engineer Project
 
