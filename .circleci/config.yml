@@ -7,6 +7,10 @@ jobs:
       - image: circleci/golang:1.15.8
       - image: circleci/redis:6.0-alpine
       - image: circleci/postgres:13.3-postgis-ram
+        environment:
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         auth:
           username: $DOCKER_HUB_USERNAME
           password: $DOCKER_HUB_PASSWORD
