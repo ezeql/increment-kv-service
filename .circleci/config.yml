@@ -4,9 +4,9 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: circleci/golang:1.15.8
-      - image: circleci/redis:6.0-alpine
-      - image: circleci/postgres:13.3-postgis-ram
+      - image: circleci/golang:1.16.4
+      - image: circleci/redis:6.2.3-alpine3.13
+      - image: circleci/postgres:13.3-ram
         environment:
           POSTGRES_DB: postgres
           POSTGRES_USER: postgres
