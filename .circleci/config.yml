@@ -8,9 +8,8 @@ jobs:
       - image: circleci/redis:6.0-alpine
       - image: circleci/postgres:13.3-postgis-ram
         auth:
-          username: postgres
-          password: postgres  # context / project UI env-var reference
-
+          username: $DOCKER_HUB_USERNAME
+          password: $DOCKER_HUB_PASSWORD
     steps:
       - checkout
       - restore_cache:
