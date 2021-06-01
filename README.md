@@ -78,8 +78,8 @@ Metrics are pulled from Caddy every 15 seconds by Prometheus.
 - [x] Rate limit
 - [x] Benchmarking
 - [x] Proxy Metrics + Prometheus + Grafana
+- [x] CI: CircleCI 
 - [ ] Auth: [Suggested implementation](https://github.com/ezeql/kv-service/blob/master/caddy/Dockerfile#L8)
-- [ ] CI / CD
 - [ ] Graceful shutdown
 - [ ] Retry mechanism when connecting to DB, publish messages, DLQs, transport layer,etc
 
