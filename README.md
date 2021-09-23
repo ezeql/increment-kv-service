@@ -1,6 +1,8 @@
-![Appcues Image](./images/appcues.png "Appcues Image")
 
 # Platform Engineer Project
+
+## Purpose
+Distributed K,V count workers flushing data to the database at least every 10 seconds or less.
 
 ## General Description
 
