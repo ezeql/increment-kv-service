@@ -2,7 +2,7 @@
 # Platform Engineer Project
 
 ## Purpose
-Distributed K,V count workers flushing entries to the database at least every 10 seconds or less.
+Distributed Key/Value count(s) workers, flushing entries to the database at least every 10 seconds or less.
 
 ## General Description
 
